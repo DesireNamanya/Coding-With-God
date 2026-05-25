@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { CursorGlow } from './components/CursorGlow';
@@ -29,6 +30,9 @@ function App() {
         
         {/* Footer info & links */}
         <Footer />
+        
+        {/* Vercel Web Analytics */}
+        <Analytics />
       </div>
     </Router>
   );
