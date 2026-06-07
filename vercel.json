@@ -2,7 +2,7 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/((?!.*\\.(?:js|css|svg|ico|png|jpg|webp|woff2?|json|xml|txt)$).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
