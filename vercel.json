@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:client",
-  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/((?!.*\\.(?:js|css|svg|ico|png|jpg|webp|woff2?|json)$).*)",
