@@ -5,10 +5,10 @@ import {
   Cpu,
   Database,
   ArrowRight,
-  
   ShieldCheck,
   HeartHandshake,
 } from "lucide-react";
+import { SEO } from "../components/SEO";
 
 export const Home: React.FC = () => {
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
@@ -29,6 +29,11 @@ export const Home: React.FC = () => {
 
   return (
     <div>
+      <SEO
+        title="Technology That Serves — Software Development"
+        description="We engineer high-performance web applications, resilient cloud systems, and optimized database solutions. Type-safe React, Node.js, and cloud-native architecture by Coding With God."
+        path="/"
+      />
       {/* Hero Section */}
       <header className="hero-section" style={{ position: "relative" }}>
         {/* Floating Parallax Badges - hidden on mobile/tablet via CSS */}

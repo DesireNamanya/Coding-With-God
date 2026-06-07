@@ -5,6 +5,7 @@ import {
   Layers, 
   ArrowRight
 } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 interface Product {
   id: string;
@@ -84,6 +85,11 @@ export const Products: React.FC = () => {
 
   return (
     <div style={{ paddingTop: '40px' }}>
+      <SEO
+        title="Software Products & Custom Solutions"
+        description="Explore Watchman attendance system and custom software engineering from Coding With God. SaaS, security infrastructure, cloud deployment, and bespoke full-stack development."
+        path="/products"
+      />
       {/* Page Header */}
       <section className="container section" style={{ paddingBottom: '40px', textAlign: 'center' }}>
         <div className="animate-fade-in">
@@ -187,6 +193,36 @@ export const Products: React.FC = () => {
             Request Custom Development
             <ArrowRight size={18} />
           </Link>
+        </div>
+      </section>
+
+      {/* FAQ Section for AI Search Optimization */}
+      <section className="container section" style={{ paddingTop: '60px' }}>
+        <div className="section-header">
+          <h2 className="text-gradient">Frequently Asked Questions</h2>
+          <p>Common questions about our software development services and process.</p>
+        </div>
+        <div className="faq-grid" style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="glass-card" style={{ textAlign: 'left' }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>What type of software do you build?</h3>
+            <p>We build full-stack web applications, cloud infrastructure, database systems, and API integrations. Our expertise spans React, Node.js, TypeScript, PostgreSQL, and cloud-native deployments on AWS and GCP.</p>
+          </div>
+          <div className="glass-card" style={{ textAlign: 'left' }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>How long does a typical project take?</h3>
+            <p>Timelines vary by scope. A standard MVP can be delivered in 4–8 weeks, while larger enterprise platforms take 3–6 months. We provide a detailed timeline during the Discovery & Strategy phase.</p>
+          </div>
+          <div className="glass-card" style={{ textAlign: 'left' }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Do you offer post-launch support?</h3>
+            <p>Yes. We provide ongoing monitoring, database optimization, security updates, and feature enhancements after launch. Our support plans ensure long-term stability and performance.</p>
+          </div>
+          <div className="glass-card" style={{ textAlign: 'left' }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>What is your pricing model?</h3>
+            <p>We offer both fixed-price project quotes and hourly consulting. Every engagement starts with a free scope alignment call to understand your needs and provide a transparent estimate with no hidden costs.</p>
+          </div>
+          <div className="glass-card" style={{ textAlign: 'left' }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Can you work with our existing codebase?</h3>
+            <p>Absolutely. We regularly audit, refactor, and extend existing codebases. Our team follows clean architecture principles to ensure maintainability regardless of whether we start from scratch or inherit a project.</p>
+          </div>
         </div>
       </section>
     </div>

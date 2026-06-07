@@ -8,6 +8,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import { SEO } from "../components/SEO";
 
 interface FormFields {
   name: string;
@@ -135,6 +136,11 @@ export const Contact: React.FC = () => {
 
   return (
     <div style={{ paddingTop: "40px" }}>
+      <SEO
+        title="Contact — Start Your Software Project"
+        description="Reach out to Coding With God for full-stack development, cloud architecture, database optimization, or technical consulting. Free scope alignment calls. Let's build something meaningful."
+        path="/contact"
+      />
       <section className="container section">
         <div className="section-header">
           <h1
@@ -177,10 +183,7 @@ export const Contact: React.FC = () => {
                 <div className="contact-info-text">
                   <h4>Call Us or WhatsApp</h4>
                   <p>
-                    <a
-                      href="mailto:serve@codingwithgod.com"
-                      style={{ color: "var(--text-primary)" }}
-                    >
+                    <a href="tel:+256766145678" style={{ color: 'var(--text-primary)' }}>
                       +256766145678
                     </a>
                   </p>

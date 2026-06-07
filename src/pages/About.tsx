@@ -1,9 +1,15 @@
 import React from 'react';
 import { Shield, Sparkles, Heart, Compass } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const About: React.FC = () => {
   return (
     <div style={{ paddingTop: '40px' }}>
+      <SEO
+        title="About — Driven by Purpose, Guided by Faith"
+        description="Coding With God bridges technical excellence with ethical software development. Clean architecture, absolute integrity, and technology that serves communities."
+        path="/about"
+      />
       {/* Page Header */}
       <section className="container section" style={{ paddingBottom: '40px', textAlign: 'center' }}>
         <div className="animate-fade-in">

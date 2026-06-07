@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 error.txt
+prompt.txt
 
 # Editor directories and files
 .vscode/*
