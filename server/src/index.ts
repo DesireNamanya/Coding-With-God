@@ -9,7 +9,7 @@ dotenv.config();
 
 // Email transporter (SMTP)
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.sendgrid.net',
+  host: process.env.SMTP_HOST || 'live.smtp.mailtrap.io',
   port: Number(process.env.SMTP_PORT) || 587,
   secure: process.env.SMTP_SECURE === 'true',
   auth: {
