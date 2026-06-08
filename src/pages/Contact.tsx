@@ -112,11 +112,11 @@ export const Contact: React.FC = () => {
         body: JSON.stringify(fields),
       });
 
+      const text = await response.text();
       let data: Record<string, unknown>;
       try {
-        data = await response.json();
+        data = JSON.parse(text);
       } catch {
-        const text = await response.text();
         data = { message: text || "Server returned an error." };
       }
 
