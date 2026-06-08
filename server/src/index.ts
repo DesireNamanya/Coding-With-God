@@ -3,8 +3,61 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
+
+// Email transporter (SMTP)
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.sendgrid.net',
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: process.env.SMTP_SECURE === 'true',
+  auth: {
+    user: process.env.SMTP_USER || '',
+    pass: process.env.SMTP_PASS || '',
+  },
+});
+
+const EMAIL_FROM = process.env.EMAIL_FROM || '';
+const EMAIL_TO = process.env.EMAIL_TO || '';
+
+const sendContactEmail = async (data: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+}) => {
+  if (!EMAIL_FROM || !EMAIL_TO) {
+    console.warn('[Email] Skipping email — EMAIL_FROM or EMAIL_TO not set');
+    return;
+  }
+
+  const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+      <h2 style="color: #2563eb;">New Contact Form Submission</h2>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Name</td><td style="padding: 8px 0;">${data.name}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Email</td><td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Subject</td><td style="padding: 8px 0;">${data.subject}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Date</td><td style="padding: 8px 0;">${new Date(data.createdAt).toLocaleString()}</td></tr>
+      </table>
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+      <h3 style="color: #374151;">Message</h3>
+      <p style="white-space: pre-wrap; line-height: 1.6; color: #4b5563;">${data.message}</p>
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+      <p style="font-size: 12px; color: #9ca3af;">Sent via Coding With God contact form</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: EMAIL_FROM,
+    to: EMAIL_TO,
+    subject: `[Contact Form] ${data.subject}`,
+    html,
+    replyTo: data.email,
+  });
+};
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -96,9 +149,16 @@ app.post('/api/contact', (req: Request, res: Response) => {
 
     console.log(`[API] Saved contact submission from ${name.trim()} (${email.trim()})`);
 
+    // Send email notification (non-blocking)
+    sendContactEmail(newMessage).then(() => {
+      console.log(`[Email] Notification sent for ${email.trim()}`);
+    }).catch((err) => {
+      console.error('[Email] Failed to send notification:', err);
+    });
+
     return res.status(200).json({
       success: true,
-      message: 'Message saved successfully'
+      message: 'Message sent successfully'
     });
   } catch (error) {
     console.error('[API] Error handling contact form submission:', error);
