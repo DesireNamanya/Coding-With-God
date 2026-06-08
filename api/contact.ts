@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
@@ -14,13 +14,120 @@ const transporter = nodemailer.createTransport({
 const EMAIL_FROM = process.env.EMAIL_FROM || '';
 const EMAIL_TO = process.env.EMAIL_TO || '';
 
-const sendContactEmail = async (data: {
+function sendJSON(
+  res: ServerResponse,
+  status: number,
+  data: Record<string, unknown>
+) {
+  const body = JSON.stringify(data);
+  res.writeHead(status, {
+    'Content-Type': 'application/json',
+    'Content-Length': Buffer.byteLength(body),
+  });
+  res.end(body);
+}
+
+async function readBody(req: IncomingMessage): Promise<string> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of req) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks).toString('utf-8');
+}
+
+export default async function handler(
+  req: IncomingMessage,
+  res: ServerResponse
+) {
+  try {
+    if (req.method !== 'POST') {
+      sendJSON(res, 405, { success: false, message: 'Method not allowed' });
+      return;
+    }
+
+    const rawBody = await readBody(req);
+    let body: Record<string, unknown>;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      sendJSON(res, 400, { success: false, message: 'Invalid JSON body' });
+      return;
+    }
+
+    const { name, email, subject, message } = body as {
+      name?: string;
+      email?: string;
+      subject?: string;
+      message?: string;
+    };
+
+    const errors: Record<string, string> = {};
+
+    if (!name || typeof name !== 'string' || !name.trim()) {
+      errors.name = 'Full name is required';
+    }
+
+    if (!email || typeof email !== 'string' || !email.trim()) {
+      errors.email = 'Email address is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    if (!subject || typeof subject !== 'string' || !subject.trim()) {
+      errors.subject = 'Subject is required';
+    }
+
+    if (!message || typeof message !== 'string' || !message.trim()) {
+      errors.message = 'Message is required';
+    } else if (message.trim().length < 10) {
+      errors.message = 'Message must be at least 10 characters long';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      sendJSON(res, 400, { success: false, errors });
+      return;
+    }
+
+    const newMessage = {
+      id: Math.random().toString(36).substring(2, 11),
+      name: name!.trim(),
+      email: email!.trim(),
+      subject: subject!.trim(),
+      message: message!.trim(),
+      createdAt: new Date().toISOString(),
+    };
+
+    console.log(
+      `[API] Contact submission from ${newMessage.name} (${newMessage.email})`
+    );
+
+    try {
+      await sendContactEmail(newMessage);
+      console.log(`[Email] Notification sent for ${newMessage.email}`);
+    } catch (err) {
+      console.error('[Email] Failed to send notification:', err);
+    }
+
+    sendJSON(res, 200, {
+      success: true,
+      message: 'Message sent successfully',
+    });
+  } catch (error) {
+    console.error('[API] Unhandled error:', error);
+    sendJSON(res, 500, {
+      success: false,
+      message: 'An internal server error occurred. Please try again later.',
+    });
+  }
+}
+
+async function sendContactEmail(data: {
   name: string;
   email: string;
   subject: string;
   message: string;
   createdAt: string;
-}) => {
+}) {
   if (!EMAIL_FROM || !EMAIL_TO) {
     console.warn('[Email] Skipping email — EMAIL_FROM or EMAIL_TO not set');
     return;
@@ -50,68 +157,4 @@ const sendContactEmail = async (data: {
     html,
     replyTo: data.email,
   });
-};
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method not allowed' });
-  }
-
-  try {
-    const { name, email, subject, message } = req.body;
-
-    const errors: Record<string, string> = {};
-
-    if (!name || typeof name !== 'string' || !name.trim()) {
-      errors.name = 'Full name is required';
-    }
-
-    if (!email || typeof email !== 'string' || !email.trim()) {
-      errors.email = 'Email address is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = 'Please enter a valid email address';
-    }
-
-    if (!subject || typeof subject !== 'string' || !subject.trim()) {
-      errors.subject = 'Subject is required';
-    }
-
-    if (!message || typeof message !== 'string' || !message.trim()) {
-      errors.message = 'Message is required';
-    } else if (message.trim().length < 10) {
-      errors.message = 'Message must be at least 10 characters long';
-    }
-
-    if (Object.keys(errors).length > 0) {
-      return res.status(400).json({ success: false, errors });
-    }
-
-    const newMessage = {
-      id: Math.random().toString(36).substring(2, 11),
-      name: name.trim(),
-      email: email.trim(),
-      subject: subject.trim(),
-      message: message.trim(),
-      createdAt: new Date().toISOString(),
-    };
-
-    console.log(`[API] Contact submission from ${newMessage.name} (${newMessage.email})`);
-
-    await sendContactEmail(newMessage).then(() => {
-      console.log(`[Email] Notification sent for ${newMessage.email}`);
-    }).catch((err) => {
-      console.error('[Email] Failed to send notification:', err);
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: 'Message sent successfully',
-    });
-  } catch (error) {
-    console.error('[API] Error handling contact form submission:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'An internal server error occurred. Please try again later.',
-    });
-  }
 }

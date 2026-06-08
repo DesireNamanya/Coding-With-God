@@ -112,15 +112,21 @@ export const Contact: React.FC = () => {
         body: JSON.stringify(fields),
       });
 
-      const data = await response.json();
+      let data: Record<string, unknown>;
+      try {
+        data = await response.json();
+      } catch {
+        const text = await response.text();
+        data = { message: text || "Server returned an error." };
+      }
 
-      if (response.ok && data.success) {
+      if (response.ok && (data as any).success) {
         setIsSuccess(true);
       } else {
-        if (data.errors) {
-          setErrors(data.errors);
+        if ((data as any).errors) {
+          setErrors((data as any).errors);
         } else {
-          setErrors({ general: data.message || "Failed to send message." });
+          setErrors({ general: (data as any).message || "Failed to send message." });
         }
       }
     } catch (err) {
