@@ -101,12 +101,8 @@ export default async function handler(
       `[API] Contact submission from ${newMessage.name} (${newMessage.email})`
     );
 
-    try {
-      await sendContactEmail(newMessage);
-      console.log(`[Email] Notification sent for ${newMessage.email}`);
-    } catch (err) {
-      console.error('[Email] Failed to send notification:', err);
-    }
+    await sendContactEmail(newMessage);
+    console.log(`[Email] Notification sent for ${newMessage.email}`);
 
     sendJSON(res, 200, {
       success: true,
@@ -114,9 +110,10 @@ export default async function handler(
     });
   } catch (error) {
     console.error('[API] Unhandled error:', error);
+    const message = error instanceof Error ? error.message : 'An internal server error occurred';
     sendJSON(res, 500, {
       success: false,
-      message: 'An internal server error occurred. Please try again later.',
+      message,
     });
   }
 }
@@ -129,8 +126,11 @@ async function sendContactEmail(data: {
   createdAt: string;
 }) {
   if (!EMAIL_TO) {
-    console.warn('[Email] Skipping email — EMAIL_TO not set');
-    return;
+    throw new Error('EMAIL_TO not configured on the server');
+  }
+
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    throw new Error('SMTP credentials not configured on the server');
   }
 
   const html = `
