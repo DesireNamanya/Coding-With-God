@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const EMAIL_FROM = process.env.EMAIL_FROM || '';
+const EMAIL_FROM = process.env.EMAIL_FROM || 'Coding With God <info@codingwithgod.com>';
 const EMAIL_TO = process.env.EMAIL_TO || 'namanyadesire090@gmail.com';
 
 function sendJSON(
