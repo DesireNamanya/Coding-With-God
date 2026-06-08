@@ -1,13 +1,19 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
-import fs from 'fs';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 
 dotenv.config();
 
-// Email transporter (SMTP)
+// ─── Startup Config Check ────────────────────────────────────────────────────
+console.log('[Config] SMTP_HOST :', process.env.SMTP_HOST  || '⚠️  using default');
+console.log('[Config] SMTP_USER :', process.env.SMTP_USER  ? '✅ set' : '❌ MISSING');
+console.log('[Config] SMTP_PASS :', process.env.SMTP_PASS  ? '✅ set' : '❌ MISSING');
+console.log('[Config] EMAIL_FROM:', process.env.EMAIL_FROM || '❌ MISSING');
+console.log('[Config] EMAIL_TO  :', process.env.EMAIL_TO   || '❌ MISSING');
+
+// ─── Email Transporter ────────────────────────────────────────────────────────
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'live.smtp.mailtrap.io',
   port: Number(process.env.SMTP_PORT) || 587,
@@ -18,9 +24,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const EMAIL_FROM = process.env.EMAIL_FROM || '';
-const EMAIL_TO = process.env.EMAIL_TO || '';
+// Verify SMTP connection on startup
+transporter.verify((error) => {
+  if (error) {
+    console.error('[SMTP] ❌ Connection failed:', error.message);
+  } else {
+    console.log('[SMTP] ✅ Ready to send emails');
+  }
+});
 
+const EMAIL_FROM = process.env.EMAIL_FROM || '';
+const EMAIL_TO   = process.env.EMAIL_TO   || '';
+
+// ─── Email Sender ─────────────────────────────────────────────────────────────
 const sendContactEmail = async (data: {
   name: string;
   email: string;
@@ -29,18 +45,29 @@ const sendContactEmail = async (data: {
   createdAt: string;
 }) => {
   if (!EMAIL_FROM || !EMAIL_TO) {
-    console.warn('[Email] Skipping email — EMAIL_FROM or EMAIL_TO not set');
-    return;
+    throw new Error('EMAIL_FROM or EMAIL_TO is not configured');
   }
 
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
       <h2 style="color: #2563eb;">New Contact Form Submission</h2>
       <table style="width: 100%; border-collapse: collapse;">
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Name</td><td style="padding: 8px 0;">${data.name}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Email</td><td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Subject</td><td style="padding: 8px 0;">${data.subject}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Date</td><td style="padding: 8px 0;">${new Date(data.createdAt).toLocaleString()}</td></tr>
+        <tr>
+          <td style="padding: 8px 0; font-weight: bold; color: #374151;">Name</td>
+          <td style="padding: 8px 0;">${data.name}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; font-weight: bold; color: #374151;">Email</td>
+          <td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; font-weight: bold; color: #374151;">Subject</td>
+          <td style="padding: 8px 0;">${data.subject}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; font-weight: bold; color: #374151;">Date</td>
+          <td style="padding: 8px 0;">${new Date(data.createdAt).toLocaleString()}</td>
+        </tr>
       </table>
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
       <h3 style="color: #374151;">Message</h3>
@@ -59,58 +86,39 @@ const sendContactEmail = async (data: {
   });
 };
 
-const app = express();
+// ─── Express App ──────────────────────────────────────────────────────────────
+const app  = express();
 const PORT = process.env.PORT || 5001;
 
-// Middlewares
+// ─── CORS ─────────────────────────────────────────────────────────────────────
 app.use(cors({
   origin: [
-    'http://localhost:5173', 'http://127.0.0.1:5173',
-    'http://localhost:5174', 'http://127.0.0.1:5174',
-    'http://localhost:5175', 'http://127.0.0.1:5175'
+    'https://codingwithgod.com',
+    'https://www.codingwithgod.com',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5174',
+    'http://localhost:5175',
+    'http://127.0.0.1:5175',
   ],
-  credentials: true
+  credentials: true,
 }));
+
 app.use(express.json());
 
-// Path to data file
-const DATA_DIR = path.join(__dirname, '../data');
-const DATA_FILE = path.join(DATA_DIR, 'messages.json');
-
-// Ensure data directory and file exist
-const initDatabase = () => {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-  if (!fs.existsSync(DATA_FILE)) {
-    fs.writeFileSync(DATA_FILE, JSON.stringify([], null, 2), 'utf-8');
-  }
-};
-
-initDatabase();
-
-// Form message interface
-interface ContactMessage {
-  id: string;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  createdAt: string;
-}
-
-// API Routes
-app.post('/api/contact', (req: Request, res: Response) => {
+// ─── POST /api/contact ────────────────────────────────────────────────────────
+app.post('/api/contact', async (req: Request, res: Response) => {
   try {
     const { name, email, subject, message } = req.body;
 
-    // Backend Validation
+    // Validation
     const errors: Record<string, string> = {};
 
     if (!name || typeof name !== 'string' || !name.trim()) {
       errors.name = 'Full name is required';
     }
-    
+
     if (!email || typeof email !== 'string' || !email.trim()) {
       errors.email = 'Email address is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -131,57 +139,51 @@ app.post('/api/contact', (req: Request, res: Response) => {
       return res.status(400).json({ success: false, errors });
     }
 
-    // Save message to JSON file database
-    const rawData = fs.readFileSync(DATA_FILE, 'utf-8');
-    const messages: ContactMessage[] = JSON.parse(rawData);
-
-    const newMessage: ContactMessage = {
-      id: Math.random().toString(36).substring(2, 11),
-      name: name.trim(),
-      email: email.trim(),
-      subject: subject.trim(),
-      message: message.trim(),
-      createdAt: new Date().toISOString()
+    const newMessage = {
+      name:      name.trim(),
+      email:     email.trim(),
+      subject:   subject.trim(),
+      message:   message.trim(),
+      createdAt: new Date().toISOString(),
     };
 
-    messages.push(newMessage);
-    fs.writeFileSync(DATA_FILE, JSON.stringify(messages, null, 2), 'utf-8');
-
-    console.log(`[API] Saved contact submission from ${name.trim()} (${email.trim()})`);
-
-    // Send email notification (non-blocking)
-    sendContactEmail(newMessage).then(() => {
-      console.log(`[Email] Notification sent for ${email.trim()}`);
-    }).catch((err) => {
-      console.error('[Email] Failed to send notification:', err);
-    });
+    // Send email — await so errors are caught and returned to the client
+    await sendContactEmail(newMessage);
+    console.log(`[Email] ✅ Sent for ${newMessage.email}`);
 
     return res.status(200).json({
       success: true,
-      message: 'Message sent successfully'
+      message: 'Message sent successfully',
     });
-  } catch (error) {
-    console.error('[API] Error handling contact form submission:', error);
+
+  } catch (error: any) {
+    console.error('[API] Error:', error.message);
     return res.status(500).json({
       success: false,
-      message: 'An internal server error occurred. Please try again later.'
+      message: error.message || 'An internal server error occurred.',
     });
   }
 });
 
-// Serve client static files in production
+// ─── Health Check ─────────────────────────────────────────────────────────────
+app.get('/api/health', (_req: Request, res: Response) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// ─── Serve Frontend in Production ─────────────────────────────────────────────
 const isProduction = process.env.NODE_ENV === 'production';
+
 if (isProduction) {
   const distPath = path.join(__dirname, '../../dist');
   app.use(express.static(distPath));
 
-  app.get('*', (req: Request, res: Response) => {
+  app.get('*', (_req: Request, res: Response) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
 }
 
-// Start Server
+// ─── Start Server ─────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`[Server] Coding With God Tech Backend running on http://localhost:${PORT}`);
-  console.log(`[Server] Environment: ${isProduction ? 'production' : 'development'}`);
+  console.log(`\n[Server] 🚀 Running on http://localhost:${PORT}`);
+  console.log(`[Server] Environment: ${isProduction ? 'production' : 'development'}\n`);
 });
