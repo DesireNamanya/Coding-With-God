@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const EMAIL_FROM = process.env.EMAIL_FROM || '';
-const EMAIL_TO = process.env.EMAIL_TO || '';
+const EMAIL_TO = process.env.EMAIL_TO || 'namanyadesire090@gmail.com';
 
 function sendJSON(
   res: ServerResponse,
