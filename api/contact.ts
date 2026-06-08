@@ -128,27 +128,32 @@ async function sendContactEmail(data: {
   message: string;
   createdAt: string;
 }) {
-  if (!EMAIL_FROM) {
-    console.warn('[Email] Skipping email — EMAIL_FROM not set');
+  if (!EMAIL_TO) {
+    console.warn('[Email] Skipping email — EMAIL_TO not set');
     return;
   }
 
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-      <h2 style="color: #2563eb;">Thank You, ${data.name}!</h2>
-      <p style="color: #374151; line-height: 1.6;">We have received your message regarding <strong>"${data.subject}"</strong> and will get back to you within 24 hours. God bless!</p>
+      <h2 style="color: #2563eb;">New Contact Form Submission</h2>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Name</td><td style="padding: 8px 0;">${data.name}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Email</td><td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Subject</td><td style="padding: 8px 0;">${data.subject}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Date</td><td style="padding: 8px 0;">${new Date(data.createdAt).toLocaleString()}</td></tr>
+      </table>
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
-      <h3 style="color: #374151;">Your Message</h3>
+      <h3 style="color: #374151;">Message</h3>
       <p style="white-space: pre-wrap; line-height: 1.6; color: #4b5563;">${data.message}</p>
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
-      <p style="font-size: 12px; color: #9ca3af;">Coding With God Technologies</p>
+      <p style="font-size: 12px; color: #9ca3af;">Sent via Coding With God contact form</p>
     </div>
   `;
 
   await transporter.sendMail({
-    from: EMAIL_FROM,
-    to: data.email,
-    subject: `We received your message — Coding With God`,
+    from: `"${data.name}" <${data.email}>`,
+    to: EMAIL_TO,
+    subject: `[Contact Form] ${data.subject}`,
     html,
   });
 }
