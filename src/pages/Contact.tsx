@@ -104,6 +104,7 @@ export const Contact: React.FC = () => {
         ? "/api/contact"
         : "http://localhost:5001/api/contact";
 
+      console.log("[Contact] Sending to:", apiEndpoint, JSON.stringify(fields));
       const response = await fetch(apiEndpoint, {
         method: "POST",
         headers: {
@@ -112,20 +113,30 @@ export const Contact: React.FC = () => {
         body: JSON.stringify(fields),
       });
 
+      console.log("[Contact] Response status:", response.status, response.statusText);
+      console.log("[Contact] Response headers:", [...response.headers.entries()]);
+
       const text = await response.text();
+      console.log("[Contact] Response body:", text);
+
       let data: Record<string, unknown>;
       try {
         data = JSON.parse(text);
+        console.log("[Contact] Parsed JSON:", data);
       } catch {
+        console.warn("[Contact] Response is not valid JSON, using raw text");
         data = { message: text || "Server returned an error." };
       }
 
       if (response.ok && (data as any).success) {
+        console.log("[Contact] Form submitted successfully");
         setIsSuccess(true);
       } else {
         if ((data as any).errors) {
+          console.log("[Contact] Validation errors:", (data as any).errors);
           setErrors((data as any).errors);
         } else {
+          console.log("[Contact] Server error:", (data as any).message);
           setErrors({ general: (data as any).message || "Failed to send message." });
         }
       }
