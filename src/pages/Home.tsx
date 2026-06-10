@@ -42,9 +42,8 @@ export const Home: React.FC = () => {
           style={{
             left: "6%",
             top: "25%",
-            transform: `translate3d(${mouseOffset.x * -24}px, ${
-              mouseOffset.y * -24
-            }px, 0)`,
+            transform: `translate3d(${mouseOffset.x * -24}px, ${mouseOffset.y * -24
+              }px, 0)`,
             transition: "transform 0.15s ease-out",
           }}
         >
@@ -62,9 +61,8 @@ export const Home: React.FC = () => {
           style={{
             right: "6%",
             top: "20%",
-            transform: `translate3d(${mouseOffset.x * -36}px, ${
-              mouseOffset.y * -36
-            }px, 0)`,
+            transform: `translate3d(${mouseOffset.x * -36}px, ${mouseOffset.y * -36
+              }px, 0)`,
             transition: "transform 0.15s ease-out",
           }}
         >
@@ -82,9 +80,8 @@ export const Home: React.FC = () => {
           style={{
             left: "10%",
             bottom: "22%",
-            transform: `translate3d(${mouseOffset.x * -18}px, ${
-              mouseOffset.y * -18
-            }px, 0)`,
+            transform: `translate3d(${mouseOffset.x * -18}px, ${mouseOffset.y * -18
+              }px, 0)`,
             transition: "transform 0.15s ease-out",
           }}
         >
@@ -101,9 +98,8 @@ export const Home: React.FC = () => {
         <div
           className="hero-content animate-fade-in"
           style={{
-            transform: `translate3d(${mouseOffset.x * 10}px, ${
-              mouseOffset.y * 10
-            }px, 0)`,
+            transform: `translate3d(${mouseOffset.x * 10}px, ${mouseOffset.y * 10
+              }px, 0)`,
             transition: "transform 0.15s ease-out",
           }}
         >
@@ -198,7 +194,7 @@ export const Home: React.FC = () => {
             </h2>
             <p style={{ fontSize: "1.1rem", marginBottom: "32px" }}>
               We believe technology is more than just tools and commands. It is
-              a avenue to serve communities, streamline operations, and bring
+              an avenue to serve communities, streamline operations, and bring
               ideas to fruition. We approach software engineering with a
               commitment to clean architecture and absolute integrity.
             </p>

@@ -30,7 +30,7 @@ export const Navbar: React.FC = () => {
           <div className="logo-wrapper">
             <Code2 size={28} className="logo-icon" />
             <div className="logo-text">
-              <span className="brand-name">Coding With God</span>
+              <span className="brand-name">Coding With God </span>
               <span className="brand-tagline">technology that serves</span>
             </div>
           </div>
@@ -52,8 +52,8 @@ export const Navbar: React.FC = () => {
           </NavLink>
 
           {/* Theme Toggle Button */}
-          <button 
-            onClick={toggleTheme} 
+          <button
+            onClick={toggleTheme}
             className="theme-toggle-btn"
             aria-label="Toggle theme"
             style={{
@@ -99,12 +99,12 @@ export const Navbar: React.FC = () => {
           <NavLink to="/contact" onClick={closeMenu} className="mobile-nav-link">
             Contact us
           </NavLink>
-          
+
           {/* Mobile Theme Toggle Row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', margin: '4px 0' }}>
             <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: 500 }}>Theme</span>
-            <button 
-              onClick={toggleTheme} 
+            <button
+              onClick={toggleTheme}
               aria-label="Toggle theme"
               style={{
                 background: 'rgba(90, 6, 22, 0.04)',
