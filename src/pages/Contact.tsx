@@ -198,10 +198,10 @@ export const Contact: React.FC = () => {
                   <Mail size={20} />
                 </div>
                 <div className="contact-info-text">
-                  <h4>Email Us</h4>
+                  <h4>Call Us</h4>
                   <p>
-                    <a href="mailto:[EMAIL_ADDRESS]" style={{ color: 'var(--text-primary)' }}>
-                      [cwgtechnologies@gmail.com]
+                    <a href="tel:+256766145678" style={{ color: 'var(--text-primary)' }}>
+                      +256766145678
                     </a>
                   </p>
                 </div>
