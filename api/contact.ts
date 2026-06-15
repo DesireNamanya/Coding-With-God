@@ -173,6 +173,7 @@ async function sendContactEmail(data: {
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(90, 6, 22, 0.05); border: 1px solid rgba(90, 6, 22, 0.08);">
         <!-- Header -->
         <div style="background: linear-gradient(135deg, #5A0616 0%, #7E1025 100%); padding: 32px; text-align: center;">
+          <img src="https://codingwithgod.com/logo.svg" alt="Coding With God" style="height: 60px; width: auto; margin-bottom: 16px; display: inline-block;">
           <h1 style="color: #F8F2E6; margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em;">New Contact Submission</h1>
         </div>
         
