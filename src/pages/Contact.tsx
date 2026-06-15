@@ -154,8 +154,8 @@ export const Contact: React.FC = () => {
   return (
     <div style={{ paddingTop: "40px" }}>
       <SEO
-        title="Contact — Start Your Software Project"
-        description="Reach out to Coding With God for full-stack development, cloud architecture, database optimization, or technical consulting. Free scope alignment calls. Let's build something meaningful."
+        title="Hire Software Developers — Start Your Project Today"
+        description="Hire expert software developers for full-stack development, cloud architecture, database optimization, or technical consulting. Free project estimates and scope alignment."
         path="/contact"
       />
       <section className="container section">

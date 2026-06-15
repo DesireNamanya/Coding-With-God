@@ -6,8 +6,8 @@ export const About: React.FC = () => {
   return (
     <div style={{ paddingTop: '40px' }}>
       <SEO
-        title="About — Driven by Purpose, Guided by Faith"
-        description="Coding With God bridges technical excellence with ethical software development. Clean architecture, absolute integrity, and technology that serves communities."
+        title="About Our Software Engineering Agency — Technical Excellence"
+        description="Coding With God is a premium software development company bridging technical excellence with ethical integrity. We build scalable, secure, and purpose-driven applications."
         path="/about"
       />
       {/* Page Header */}

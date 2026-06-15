@@ -30,8 +30,8 @@ export const Home: React.FC = () => {
   return (
     <div>
       <SEO
-        title="Technology That Serves — Software Development"
-        description="We engineer high-performance web applications, resilient cloud systems, and optimized database solutions. Type-safe React, Node.js, and cloud-native architecture by Coding With God."
+        title="Custom Software Development & Full-Stack Engineering"
+        description="Premium software development agency building high-performance web applications, resilient cloud systems, and optimized database solutions. Expert React, Node.js, and Cloud-native architecture."
         path="/"
       />
       {/* Hero Section */}

@@ -11,32 +11,32 @@ interface SEOProps {
 
 const SITE_NAME = 'Coding With God Technologies';
 const SITE_URL = 'https://codingwithgod.com';
-const DEFAULT_OG_IMAGE = 'public/logo.svg';
+const DEFAULT_OG_IMAGE = '/logo.svg';
 
 const pagesSchema: Record<string, Record<string, unknown>> = {
   '/': {
     '@type': 'WebPage',
-    name: 'Coding With God Technologies',
+    name: 'Custom Software Development & Full-Stack Engineering',
     description:
-      'We engineer high-performance web applications, resilient cloud systems, and optimized database solutions. Type-safe React, Node.js, and cloud-native architecture.',
+      'Premium software development agency specializing in high-performance web applications, resilient cloud systems, and custom SaaS solutions. Expert React & Node.js development.',
   },
   '/about': {
     '@type': 'AboutPage',
-    name: 'About Coding With God — Driven by Purpose, Guided by Faith',
+    name: 'About Our Software Engineering Agency — Technical Excellence',
     description:
-      'Founded to bridge technical excellence with ethical software development. Clean architecture, absolute integrity, and technology that serves communities.',
+      'Learn about Coding With God, a software development company driven by technical craft and ethical integrity. We build scalable, secure, and purpose-driven applications.',
   },
   '/products': {
     '@type': 'CollectionPage',
-    name: 'Software Products & Custom Solutions — Coding With God',
+    name: 'Custom SaaS Products & Software Solutions',
     description:
-      'Explore Watchman attendance system and custom software engineering. SaaS, security infrastructure, cloud deployment, and bespoke full-stack development.',
+      'Explore our enterprise software products including the Watchman attendance system. Custom software engineering for security, analytics, and cloud infrastructure.',
   },
   '/contact': {
     '@type': 'ContactPage',
-    name: 'Contact Coding With God — Start Your Software Project',
+    name: 'Hire Software Developers — Start Your Project Today',
     description:
-      'Reach out for full-stack development, cloud architecture, database optimization, or technical consulting. Free scope alignment calls.',
+      'Contact our expert software engineering team for full-stack development, cloud architecture, or database optimization. Free technical consulting and project estimates.',
   },
 };
 

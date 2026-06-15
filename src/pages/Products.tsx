@@ -86,8 +86,8 @@ export const Products: React.FC = () => {
   return (
     <div style={{ paddingTop: '40px' }}>
       <SEO
-        title="Software Products & Custom Solutions"
-        description="Explore Watchman attendance system and custom software engineering from Coding With God. SaaS, security infrastructure, cloud deployment, and bespoke full-stack development."
+        title="Custom SaaS Products & Software Solutions"
+        description="Explore our enterprise software products including the Watchman attendance system. Custom software engineering for security, analytics, and cloud infrastructure."
         path="/products"
       />
       {/* Page Header */}
