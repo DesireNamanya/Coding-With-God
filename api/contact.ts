@@ -169,19 +169,69 @@ async function sendContactEmail(data: {
 
   console.log('[sendContactEmail] Building email HTML...');
   const html = `
-    <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-      <h2 style="color: #2563eb;">New Contact Form Submission</h2>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Name</td><td style="padding: 8px 0;">${data.name}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Email</td><td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Subject</td><td style="padding: 8px 0;">${data.subject}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: bold; color: #374151;">Date</td><td style="padding: 8px 0;">${new Date(data.createdAt).toLocaleString()}</td></tr>
-      </table>
-      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
-      <h3 style="color: #374151;">Message</h3>
-      <p style="white-space: pre-wrap; line-height: 1.6; color: #4b5563;">${data.message}</p>
-      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
-      <p style="font-size: 12px; color: #9ca3af;">Sent via Coding With God contact form</p>
+    <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #FCFAF7; color: #241416; margin: 0; padding: 40px 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(90, 6, 22, 0.05); border: 1px solid rgba(90, 6, 22, 0.08);">
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, #5A0616 0%, #7E1025 100%); padding: 32px; text-align: center;">
+          <h1 style="color: #F8F2E6; margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em;">New Contact Submission</h1>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 40px;">
+          <div style="margin-bottom: 32px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 12px 0; border-bottom: 1px solid #F4EFEB; width: 100px; vertical-align: top;">
+                  <span style="font-weight: 600; color: #5A0616; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Name</span>
+                </td>
+                <td style="padding: 12px 0; border-bottom: 1px solid #F4EFEB; color: #241416; font-size: 15px;">
+                  ${data.name}
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 0; border-bottom: 1px solid #F4EFEB; width: 100px; vertical-align: top;">
+                  <span style="font-weight: 600; color: #5A0616; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Email</span>
+                </td>
+                <td style="padding: 12px 0; border-bottom: 1px solid #F4EFEB; color: #241416; font-size: 15px;">
+                  <a href="mailto:${data.email}" style="color: #5A0616; text-decoration: none; font-weight: 500;">${data.email}</a>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 0; border-bottom: 1px solid #F4EFEB; width: 100px; vertical-align: top;">
+                  <span style="font-weight: 600; color: #5A0616; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Subject</span>
+                </td>
+                <td style="padding: 12px 0; border-bottom: 1px solid #F4EFEB; color: #241416; font-size: 15px;">
+                  ${data.subject}
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 0; width: 100px; vertical-align: top;">
+                  <span style="font-weight: 600; color: #5A0616; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Date</span>
+                </td>
+                <td style="padding: 12px 0; color: #241416; font-size: 15px;">
+                  ${new Date(data.createdAt).toLocaleString()}
+                </td>
+              </tr>
+            </table>
+          </div>
+          
+          <!-- Message -->
+          <div style="background-color: #FCFAF7; border-left: 4px solid #5A0616; padding: 24px; border-radius: 4px;">
+            <div style="font-weight: 600; color: #5A0616; margin-bottom: 12px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Message</div>
+            <p style="color: #5C4B4E; line-height: 1.6; white-space: pre-wrap; margin: 0; font-size: 15px;">${data.message}</p>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="padding: 32px; text-align: center; border-top: 1px solid #F4EFEB; background-color: #FAF5EB;">
+          <p style="margin: 0; color: #8F7E81; font-size: 12px; line-height: 1.5;">
+            This message was sent via the <strong>Coding With God</strong> contact form.
+          </p>
+          <p style="margin: 8px 0 0; color: #8F7E81; font-size: 12px;">
+            &copy; ${new Date().getFullYear()} Coding With God. All rights reserved.
+          </p>
+        </div>
+      </div>
     </div>
   `;
 
