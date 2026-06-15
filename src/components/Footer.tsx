@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Code2, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -11,8 +11,7 @@ export const Footer: React.FC = () => {
         {/* Brand Column */}
         <div className="footer-brand">
           <Link to="/" className="footer-logo">
-            <Code2 size={24} className="footer-logo-icon" />
-            <span>Coding With God</span>
+            <img src="/logo.svg" alt="Coding With God" className="logo-img" style={{ height: '36px', width: 'auto', display: 'block' }} />
           </Link>
           <p className="footer-tagline">
             We build modern, premium software solutions driven by integrity, excellence, and a spirit of service.

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Code2, Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,11 +28,7 @@ export const Navbar: React.FC = () => {
         {/* Brand/Logo */}
         <NavLink to="/" onClick={closeMenu} className="logo-link">
           <div className="logo-wrapper">
-            <Code2 size={28} className="logo-icon" />
-            <div className="logo-text">
-              <span className="brand-name">Coding With God </span>
-              <span className="brand-tagline">technology that serves</span>
-            </div>
+            <img src="/logo.svg" alt="Coding With God" className="logo-img" style={{ height: '40px', width: 'auto', display: 'block' }} />
           </div>
         </NavLink>
 
