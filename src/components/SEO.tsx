@@ -57,7 +57,7 @@ export function SEO({ title, description, path, ogType = 'website', ogImage = DE
       '@type': 'ContactPoint',
       telephone: '+256766145678',
       contactType: 'sales',
-      email: 'cwgtechnologies.com',
+      email: 'cwgtechnologies@gmail.com',
     },
     sameAs: [
       'https://github.com/DesireNamanya/Coding-With-God',
