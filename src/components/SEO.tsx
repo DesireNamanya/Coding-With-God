@@ -100,12 +100,16 @@ export function SEO({ title, description, path, ogType = 'website', ogImage = DE
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:image" content={`${SITE_URL}${ogImage}`} />
+      <meta property="og:image:secure_url" content={`${SITE_URL}${ogImage}`} />
+      <meta property="og:image:type" content="image/svg+xml" />
+      <meta property="og:image:alt" content={`${SITE_NAME} Logo`} />
       <meta property="og:locale" content="en_US" />
 
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={`${SITE_URL}${ogImage}`} />
+      <meta name="twitter:image:alt" content={`${SITE_NAME} Logo`} />
 
       <script type="application/ld+json">
         {JSON.stringify(orgSchema)}
