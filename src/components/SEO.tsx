@@ -11,7 +11,7 @@ interface SEOProps {
 
 const SITE_NAME = 'Coding With God Technologies';
 const SITE_URL = 'https://codingwithgod.com';
-const DEFAULT_OG_IMAGE = '/logo.svg';
+const DEFAULT_OG_IMAGE = '/og-image.png';
 
 const pagesSchema: Record<string, Record<string, unknown>> = {
   '/': {
