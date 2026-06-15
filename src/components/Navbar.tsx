@@ -50,23 +50,10 @@ export const Navbar: React.FC = () => {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="theme-toggle-btn"
+            className="theme-toggle"
             aria-label="Toggle theme"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '8px',
-              borderRadius: '50%',
-              transition: 'background-color 0.2s ease',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(90, 6, 22, 0.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
           >
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
           <NavLink to="/contact" className="cta-button">
