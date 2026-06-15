@@ -9,14 +9,14 @@ interface SEOProps {
   schema?: Record<string, unknown>;
 }
 
-const SITE_NAME = 'Coding With God';
+const SITE_NAME = 'Coding With God Technologies';
 const SITE_URL = 'https://codingwithgod.com';
-const DEFAULT_OG_IMAGE = '/og-image.png';
+const DEFAULT_OG_IMAGE = 'public/logo.svg';
 
 const pagesSchema: Record<string, Record<string, unknown>> = {
   '/': {
     '@type': 'WebPage',
-    name: 'Technology That Serves — Software Development',
+    name: 'Coding With God Technologies',
     description:
       'We engineer high-performance web applications, resilient cloud systems, and optimized database solutions. Type-safe React, Node.js, and cloud-native architecture.',
   },
@@ -49,15 +49,15 @@ export function SEO({ title, description, path, ogType = 'website', ogImage = DE
     '@type': 'Organization',
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/favicon.svg`,
+    logo: `${SITE_URL}/logo.svg`,
     description:
       'Premium software development company building responsive web applications, secure backends, and optimized database systems.',
-    foundingDate: '2024',
+    foundingDate: '2026',
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+256766145678',
       contactType: 'sales',
-      email: 'serve@codingwithgod.com',
+      email: 'cwgtechnologies.com',
     },
     sameAs: [
       'https://github.com/DesireNamanya/Coding-With-God',
@@ -72,13 +72,13 @@ export function SEO({ title, description, path, ogType = 'website', ogImage = DE
     ].concat(
       path !== '/'
         ? [
-            {
-              '@type': 'ListItem' as const,
-              position: 2,
-              name: title,
-              item: url,
-            },
-          ]
+          {
+            '@type': 'ListItem' as const,
+            position: 2,
+            name: title,
+            item: url,
+          },
+        ]
         : []
     ),
   };
