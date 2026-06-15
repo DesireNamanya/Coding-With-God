@@ -187,7 +187,7 @@ async function sendContactEmail(data: {
 
   console.log('[sendContactEmail] Calling transporter.sendMail...');
   console.log('[sendContactEmail] Mail options:', JSON.stringify({
-    from: `"${data.name}" <${data.email}>`,
+    from: EMAIL_FROM,
     to: EMAIL_TO,
     subject: `[Contact Form] ${data.subject}`,
     htmlLength: html.length,
@@ -195,10 +195,11 @@ async function sendContactEmail(data: {
 
   try {
     const info = await transporter.sendMail({
-      from: `"${data.name}" <${data.email}>`,
+      from: EMAIL_FROM,
       to: EMAIL_TO,
       subject: `[Contact Form] ${data.subject}`,
       html,
+      replyTo: `"${data.name}" <${data.email}>`,
     });
     console.log('[sendContactEmail] sendMail succeeded');
     console.log('[sendContactEmail] Message ID:', info.messageId);
