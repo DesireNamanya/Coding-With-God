@@ -26,7 +26,7 @@ transporter.verify().then(() => {
 });
 
 const EMAIL_FROM = process.env.EMAIL_FROM || 'Coding With God <hello@yourverfifieddomain.com>';
-const EMAIL_TO = process.env.EMAIL_TO || 'namanyadesire090@gmail.com';
+const EMAIL_TO = process.env.EMAIL_TO || 'cwgtechnologies@gmail.com';
 
 function sendJSON(
   res: ServerResponse,
