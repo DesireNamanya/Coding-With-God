@@ -25,7 +25,7 @@ transporter.verify().then(() => {
   console.error('[SMTP] Connection verification failed:', err);
 });
 
-const EMAIL_FROM = process.env.EMAIL_FROM || 'Coding With God <hello@yourverfifieddomain.com>';
+const EMAIL_FROM = process.env.EMAIL_FROM || 'Coding With God <hello@demomailtrap.co>';
 const EMAIL_TO = process.env.EMAIL_TO || 'cwgtechnologies@gmail.com';
 
 function sendJSON(

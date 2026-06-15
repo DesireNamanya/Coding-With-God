@@ -33,7 +33,7 @@ transporter.verify((error) => {
   }
 });
 
-const EMAIL_FROM = process.env.EMAIL_FROM || 'Coding With God <hello@yourverfifieddomain.com>';
+const EMAIL_FROM = process.env.EMAIL_FROM || 'Coding With God <hello@demomailtrap.co>';
 const EMAIL_TO   = process.env.EMAIL_TO   || 'cwgtechnologies@gmail.com';
 
 // ─── Email Sender ─────────────────────────────────────────────────────────────
